@@ -16,6 +16,8 @@ const prevBtn = $('.btn-prev')
 const randomBtn = $('.btn-random')
 const repeateBtn = $('.btn-repeat')
 const playlist = $('.playlist')
+const removeBtn = $('.removeBtn')
+const optionBtn = $('.option')
 
 const app = {
     currentIdx: 0,
@@ -85,8 +87,11 @@ const app = {
                         <h3 class="title">${song.name}</h3>
                         <p class="author">${song.singer}</p>
                     </div>
-                    <div class="option">
+                    <div class="option" data-index="${index}">
                         <i class="fas fa-ellipsis-h"></i>
+                        <ul class="option-item" >
+                            <li class="removeBtn">Remove</li>
+                        </ul>
                     </div>
                 </div>
             `;
@@ -213,20 +218,41 @@ const app = {
         // click on song want to play
         playlist.onclick = (e) => {
             const songEle = e.target.closest('.song:not(.active)')
+            const optionEle = e.target.closest(".option");
+            const removeEle = e.target.closest(".removeBtn");
             // take the song not active
-            if(songEle || e.target.closest('.option')){
+            if(songEle || optionEle || removeEle){
                 // click on song
-                if(songEle){
-                    _this.currentIdx = songEle.dataset.index
+                if(songEle && !optionEle){
+                    _this.currentIdx = Number(songEle.dataset.index)
+                    _this.scrollToActiveSong()
                     _this.render()
                     _this.loadCurrentSong()
                     audio.play()
                 }
 
                 // click on song's option
-                if(e.target.closest('.option')){
+                if(optionEle){
+                    const optionItem = optionEle.querySelector(".option-item");
 
+                    optionItem.classList.toggle('display');
+                    console.log(optionEle);
                 }
+
+                if (removeEle) {
+                    const songIndex = removeEle.closest('.option').dataset.index;
+                    _this.songs.splice(songIndex, 1); 
+                    _this.render();
+                    _this.loadCurrentSong();
+                    audio.pause()
+                }
+
+                document.addEventListener('click', function (e) {
+                    if (!e.target.closest('.playlist .option') && !e.target.closest('.option-item')) {
+                        const optionItem = $$('.option-item.display');
+                        optionItem.classList.remove('display');
+                    }
+                });
             }
         }
     },
@@ -235,7 +261,7 @@ const app = {
         setTimeout(() => {
             $('.song.active').scrollIntoView({
                 behavior: 'smooth',
-                block: 'nearest',
+                block: 'end',
             })
         },300)
     },

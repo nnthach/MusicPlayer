@@ -191,4 +191,26 @@
     color: #999;
     font-size: 18px;
   }
+
+  .option{
+    position: relative;
+  }
+
+  .option-item{
+    position: absolute;
+    right: 5px;
+    top: 38px;
+    list-style: none;
+    background-color: white;
+    color: black;
+    font-size: 14px;
+    padding: 0 5px;
+    border-radius: 8px;
+    display: none;
+    border: 1px solid black;
+  }
+
+  .option-item.display{
+    display: block;
+  }
   
