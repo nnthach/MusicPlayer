@@ -95,6 +95,11 @@
   .control .btn.active {
     color: var(--primary-color);
   }
+
+  .btn-prev:active,
+  .btn-next:active{
+    color: var(--primary-color);
+  }
   
   .control .btn-toggle-play {
     width: 56px;
