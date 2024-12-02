@@ -244,7 +244,7 @@ const app = {
                     _this.songs.splice(songIndex, 1); 
                     _this.render();
                     _this.loadCurrentSong();
-                    audio.pause()
+                    audio.play()
                 }
 
                 document.addEventListener('click', function (e) {
